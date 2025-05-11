@@ -266,6 +266,19 @@ export default function EditQuestionPage() {
           </div>
         )}
 
+        {questionData.question_type === "multiple_choice" && (
+          <div>
+            <label className="block text-sm mb-1">Correct Answer</label>
+            <Input
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              className="w-96 p-2 border rounded-md"
+              placeholder="Enter the correct answer"
+              required
+            />
+          </div>
+        )}
+
         {/* MATCHING PAIRS */}
         {questionData.question_type === "matching_pairs" && (
           <>
