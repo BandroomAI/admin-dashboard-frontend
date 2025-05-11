@@ -552,90 +552,90 @@ export default function CreateQuestionsPage() {
 
                     {(matchingPairMediaType === "image" ||
                       matchingPairMediaType === "audio") && (
-                        <>
-                          <Input
-                            type="file"
-                            className="w-64 font-light text-gray-500"
-                            accept={
-                              matchingPairMediaType === "image"
-                                ? "image/*"
-                                : "audio/*"
-                            }
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (!file) return;
+                      <>
+                        <Input
+                          type="file"
+                          className="w-64 font-light text-gray-500"
+                          accept={
+                            matchingPairMediaType === "image"
+                              ? "image/*"
+                              : "audio/*"
+                          }
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (!file) return;
 
-                              // Store the File object, NOT the blob preview URL
-                              const updatedPairs = [...pairs];
-                              updatedPairs[idx][0] = file.name;
-                              setPairs(updatedPairs);
+                            // Store the File object, NOT the blob preview URL
+                            const updatedPairs = [...pairs];
+                            updatedPairs[idx][0] = file.name;
+                            setPairs(updatedPairs);
 
-                              const updatedCorrect = [...correctPairs];
-                              if (!updatedCorrect[idx])
-                                updatedCorrect[idx] = ["", ""];
-                              updatedCorrect[idx][0] = file.name;
-                              setCorrectPairs(updatedCorrect);
+                            const updatedCorrect = [...correctPairs];
+                            if (!updatedCorrect[idx])
+                              updatedCorrect[idx] = ["", ""];
+                            updatedCorrect[idx][0] = file.name;
+                            setCorrectPairs(updatedCorrect);
 
-                              const updatedUploads = [...leftMediaUploads];
-                              updatedUploads[idx] = file; // ✅ this must be the File
-                              setLeftMediaUploads(updatedUploads);
-                            }}
-                            required
-                          />
-                          {/* Previews */}
-                          {matchingPairMediaType === "image" &&
-                            leftMediaUploads[idx] && (
-                              <>
-                                {leftMediaUploads[idx] instanceof File ? (
-                                  <img
+                            const updatedUploads = [...leftMediaUploads];
+                            updatedUploads[idx] = file; // ✅ this must be the File
+                            setLeftMediaUploads(updatedUploads);
+                          }}
+                          required
+                        />
+                        {/* Previews */}
+                        {matchingPairMediaType === "image" &&
+                          leftMediaUploads[idx] && (
+                            <>
+                              {leftMediaUploads[idx] instanceof File ? (
+                                <img
+                                  src={URL.createObjectURL(
+                                    leftMediaUploads[idx] as File,
+                                  )}
+                                  alt="Preview"
+                                  className="mt-2 max-h-24 rounded-md border"
+                                />
+                              ) : (
+                                <img
+                                  src={leftMediaUploads[idx] as string}
+                                  alt="Preview"
+                                  className="mt-2 max-h-24 rounded-md border"
+                                />
+                              )}
+                            </>
+                          )}
+
+                        {matchingPairMediaType === "audio" &&
+                          leftMediaUploads[idx] && (
+                            <>
+                              {leftMediaUploads[idx] instanceof File ? (
+                                <audio
+                                  controls
+                                  className="mt-2 w-full max-w-sm"
+                                >
+                                  <source
                                     src={URL.createObjectURL(
                                       leftMediaUploads[idx] as File,
                                     )}
-                                    alt="Preview"
-                                    className="mt-2 max-h-24 rounded-md border"
                                   />
-                                ) : (
-                                  <img
+                                  Your browser does not support the audio
+                                  element.
+                                </audio>
+                              ) : (
+                                <audio
+                                  controls
+                                  className="mt-2 w-full max-w-sm"
+                                >
+                                  <source
                                     src={leftMediaUploads[idx] as string}
-                                    alt="Preview"
-                                    className="mt-2 max-h-24 rounded-md border"
                                   />
-                                )}
-                              </>
-                            )}
-
-                          {matchingPairMediaType === "audio" &&
-                            leftMediaUploads[idx] && (
-                              <>
-                                {leftMediaUploads[idx] instanceof File ? (
-                                  <audio
-                                    controls
-                                    className="mt-2 w-full max-w-sm"
-                                  >
-                                    <source
-                                      src={URL.createObjectURL(
-                                        leftMediaUploads[idx] as File,
-                                      )}
-                                    />
-                                    Your browser does not support the audio
-                                    element.
-                                  </audio>
-                                ) : (
-                                  <audio
-                                    controls
-                                    className="mt-2 w-full max-w-sm"
-                                  >
-                                    <source
-                                      src={leftMediaUploads[idx] as string}
-                                    />
-                                    Your browser does not support the audio
-                                    element.
-                                  </audio>
-                                )}
-                              </>
-                            )}
-                        </>
-                      )}
+                                  Your browser does not support the audio
+                                  element.
+                                </audio>
+                              )}
+                            </>
+                          )}
+                      </>
+                    )}
                   </div>
 
                   {/* Right side (always text input) */}
@@ -671,12 +671,9 @@ export default function CreateQuestionsPage() {
                 <div key={idx} className="flex gap-4 mb-2">
                   <Input
                     placeholder="Left side (Correct)"
-                    className="w-64"
+                    className="w-64 bg-gray-100"
                     value={pair[0]}
-                    onChange={(e) =>
-                      handleCorrectPairChange(idx, 0, e.target.value)
-                    }
-                    required
+                    disabled
                   />
                   <Input
                     placeholder="Right side (Correct)"

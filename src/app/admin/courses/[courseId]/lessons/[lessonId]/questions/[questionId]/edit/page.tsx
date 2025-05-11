@@ -338,11 +338,14 @@ export default function EditQuestionPage() {
               </label>
               {correctPairs.map((pair, idx) => (
                 <div key={idx} className="flex gap-2 mb-2">
+                  {/* Left side - always disabled */}
                   <Input
                     value={pairs[idx]?.[0] || ""}
                     disabled
                     className="w-64 bg-gray-100"
                   />
+
+                  {/* Right side - disable only if media type is text */}
                   <Input
                     value={pair[1] || ""}
                     onChange={(e) =>
